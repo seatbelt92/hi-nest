@@ -16,6 +16,16 @@ export class UsersService {
     await this.sendMemberJoinEmail(email, signupVerifyToken);
   }
 
+  findOne(id: number) {
+    return `find One item with Id: ${id}`;
+  }
+  findAll() {
+    return 'find and get All items';
+  }
+  getHello() {
+    return 'Hello World!';
+  }
+
   private checkUserExists(email: string) {
     return false;
   }
