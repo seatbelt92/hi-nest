@@ -1,7 +1,14 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+import { UserEntity } from 'entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserInfo } from './UserInfo';
 import { UsersService } from './users.service';
 
@@ -9,27 +16,28 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @Get()
+  async getAll(): Promise<UserEntity[]> {
+    const result = await this.usersService.getAll();
+    return result;
+  }
+
   @Post()
-  async createUser(@Body() userdata: CreateUserDto): Promise<void> {
-    const { name, email, password } = userdata;
+  async createUser(@Body() user: CreateUserDto): Promise<void> {
+    const { name, email, password } = user;
     await this.usersService.createUser(name, email, password);
   }
 
-  @Post('/email-verify')
-  async verifyEmail(@Query() dto: VerifyEmailDto): Promise<string> {
-    const { signupVerifyToken } = dto;
-
-    return await this.usersService.verifyEamil(signupVerifyToken);
-  }
-
   @Post('/login')
-  async login(@Body() dto: UserLoginDto): Promise<string> {
-    const { email, password } = dto;
+  async login(@Body() user: UserLoginDto): Promise<string> {
+    const { email, password } = user;
     return await this.usersService.login(email, password);
   }
 
   @Get('/:id')
-  async getUserInfo(@Param('id') userId: string): Promise<UserInfo> {
+  async getUserInfo(
+    @Param('id', ParseIntPipe) userId: string,
+  ): Promise<UserInfo> {
     return await this.usersService.getUserInfo(userId);
   }
 }
