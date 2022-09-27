@@ -1,7 +1,6 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'entities/users.entity';
-import { userInfo } from 'os';
 import { Repository } from 'typeorm';
 import * as uuid from 'uuid';
 import { UserInfo } from './UserInfo';
