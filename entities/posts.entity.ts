@@ -1,16 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('posts', { schema: 'test' })
 export class PostEntity {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryColumn({ type: 'int' })
   id: number;
 
   @Column('varchar', { length: 30 })
   title: string;
 
   @Column('int')
-  userId: string;
+  userId: number;
 
   @Column('varchar', { length: 255 })
-  contents: string;
+  contents: string | null;
+
+  @Column('boolean')
+  isShow: boolean;
 }
